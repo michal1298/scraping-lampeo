@@ -11,5 +11,15 @@ for offers in bs.find('ul', class_='products-grid'):
     #print(offers)
     product_info = offers.find('p', class_='product-name').get_text()
     print(product_info)
+    manufacturer = offers.find('p', class_='product-manufacturer').get_text()
+    print(manufacturer)
 
-    #break
+    price_box = offers.find('div', class_='price-box-entities').get_text()
+    print(price_box)
+
+    price_old = offers.find('span', class_='price').get_text()
+    #print(price_old)
+    price = offers.find('span', class_='price').get_text()  #TODO zmienić
+    #print(price)
+
+    break
