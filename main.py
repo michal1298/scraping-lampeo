@@ -1,6 +1,10 @@
 from bs4 import BeautifulSoup
 from requests import get
 
+
+def parse_price(price):  # zamiana stringa na liczbę zmiennoprzecinkową
+    return price.replace(' ', '').replace('zł', '').replace(',', '.')
+
 URL_wiszace_do_kuchni = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'
 
 page = get(URL_wiszace_do_kuchni)
@@ -21,18 +25,20 @@ for offers in bs.find_all('li', class_='item'):
         #price_box = offers.find('div', class_='price-box-entities').get_text()      # cena
         #print('koszt:')
         #print(price_box)
-        for price_old_box in offers.find_all('p', class_='old-price'):
+        #for price_old_box in offers.find_all('p', class_='old-price'):
             #print(price_old_box)
-            price_old = price_old_box.find('span', class_='price').get_text()
-            print(price_old)
+            #price_old = parse_price(price_old_box.find('span', class_='price').get_text())
+            #print(price_old)
         for price_special_box in offers.find_all('p', class_='special-price'):
-            price_special = price_special_box.find('span', class_='price').get_text()
+            price_special = parse_price(price_special_box.find('span', class_='price').get_text().strip())
             print(price_special)
-
-    #todo modify:
+        #regular_price = offers.find('span', class_='price').get_text().strip()
+        #print(regular_price)
+        regular_price = parse_price(offers.find('span', class_='price').get_text().strip())
+        print(regular_price)
 
     date_available = offers.find('p', {"class": ["availability replenishment date-available", "availability in-stock date-available", "availability in-stock date-available replenishment"]}).getText()
-    print('data:')
+    #print('data:')
     print(date_available)
 
     url_auction = offers.find('a')
