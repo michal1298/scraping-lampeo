@@ -1,7 +1,7 @@
 # Scraping Lampeo
 
 ## Requirements
-python\
+python3\
 pip
 ## Preparation project folder
 ```
