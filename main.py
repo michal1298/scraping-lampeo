@@ -60,9 +60,27 @@ for offers in bs.find_all('li', class_='item'):
             description = product_collateral.find('div', class_='toggle-content std').get_text()
             print(description)
 
-            product_specify = product_collateral.find('table', class_='toggle-content zebra-table').get_text()
-            print(product_specify)
+            #product_specify = product_collateral.find('table', class_='toggle-content zebra-table').get_text()
+            #print(product_specify)
 
+            headings = []   # for categories names
+            for product_specify in product_collateral.find_all('th'):
+                #print(product_specify_head)
+                product_specify = (product_specify.text).rstrip('\n')       # delete \n
+                headings.append(product_specify)
+            print(headings)
+
+            properties = []     # for specify
+            for product_properties in product_collateral.find_all('td'):
+                #print(product_properties_head)
+                product_properties = (product_properties.text).rstrip('\n')
+                properties.append(product_properties)
+            print(properties)
+
+
+                #print(product_specify)
+                #tds = product_specify.find_all('td')
+                #print('attribute: %s, entity: %s') % (tds[0].text, tds[1].text)
 
 
 
