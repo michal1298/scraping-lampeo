@@ -51,8 +51,25 @@ for offers in bs.find_all('li', class_='item'):
     #print('aukcja:\n')
     bs_auction = BeautifulSoup(url_auction.content, 'html.parser')
     for auction in bs_auction.find_all('div', class_='wrapper'):
-        delivery = auction.find('span', class_='shipping').get_text()
+        delivery = auction.find('span', class_='shipping').get_text().strip()
         print(delivery)
+
+        #float (price_special)
+        #float (regular_price)
+        if (delivery) == 'Należy doliczyć koszty wysyłki':
+            expensive_shipping = 100.0
+            expensive_shipping_str = str(expensive_shipping)
+            #delivery_cost = 32.0
+            if (price_special or regular_price) < expensive_shipping_str:
+                delivery_cost = 32.0        #todo nigdy nie ma 32
+            #elif (price_special or regular_price) >= 100:
+            elif(price_special or regular_price) >= expensive_shipping_str:
+                delivery_cost = 20.0
+        else:
+            delivery_cost = 0.0
+
+        print(delivery_cost)
+
         for product_collateral in auction.find_all('div', class_='product-collateral'):
             #print(product_collateral)
 
