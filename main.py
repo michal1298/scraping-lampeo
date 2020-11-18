@@ -56,9 +56,21 @@ for offers in bs.find_all('li', class_='item'):
         for product_collateral in auction.find_all('div', class_='product-collateral'):
             #print(product_collateral)
 
-            #todo do dopracowania - pokazuje się niepotrzebne 'pobierz ...':
-            description = product_collateral.find('div', class_='toggle-content std').get_text()
-            print(description)
+            #description = product_collateral.find('div', class_='toggle-content std').get_text()
+            #print(description)
+
+            for toggle_content in product_collateral.find_all("div", class_='toggle-content std'):
+                #print(toggle_content)
+                description_title = toggle_content.find('h2').get_text()        # nagłówek opisu
+                print(description_title)
+
+                description = toggle_content.find('p').get_text()       # opis
+                print(description)
+
+
+
+
+
 
             #product_specify = product_collateral.find('table', class_='toggle-content zebra-table').get_text()
             #print(product_specify)
@@ -76,14 +88,6 @@ for offers in bs.find_all('li', class_='item'):
                 product_properties = (product_properties.text).rstrip('\n')
                 properties.append(product_properties)
             print(properties)
-
-
-                #print(product_specify)
-                #tds = product_specify.find_all('td')
-                #print('attribute: %s, entity: %s') % (tds[0].text, tds[1].text)
-
-
-
 
 
 
