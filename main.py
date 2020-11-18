@@ -30,9 +30,21 @@ for offers in bs.find('ul', class_='products-grid'):
     url_auction = offers.find('a')
     url_auction = (url_auction['href'])
     print(url_auction)
+    url_auction = get(url_auction)
 
 
+    # in auction:
+    bs_auction = BeautifulSoup(url_auction.content, 'html.parser')
+    for auction in bs_auction.find_all('div', class_='wrapper'):
+        delivery = auction.find('span', class_='shipping').get_text()
+        print(delivery)
 
+
+        #todo darmowa dostawa:
+        #for cart_benefits in auction.find_all('strong', class_='span'):
+            #print(cart_benefits)
+        #for shipping in auction.find('span', class_='shipping').get_text():
+            #print(shipping)
 
 
     break
