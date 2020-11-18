@@ -17,9 +17,22 @@ for offers in bs.find('ul', class_='products-grid'):
     price_box = offers.find('div', class_='price-box-entities').get_text()
     print(price_box)
 
-    price_old = offers.find('span', class_='price').get_text()
+    #todo modify:
+    #price_old = offers.find('span', class_='price').get_text()
     #print(price_old)
-    price = offers.find('span', class_='price').get_text()  #TODO zmienić
+    #price = offers.find('span', class_='price').get_text()  #TODO zmienić
     #print(price)
+
+
+    date_available = offers.find('p', class_='availability in-stock date-available').get_text()
+    print(date_available)
+
+    url_auction = offers.find('a')
+    url_auction = (url_auction['href'])
+    print(url_auction)
+
+
+
+
 
     break
