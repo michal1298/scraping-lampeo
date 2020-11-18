@@ -18,15 +18,18 @@ for offers in bs.find_all('li', class_='item'):
         manufacturer = offers.find('p', class_='product-manufacturer').get_text()   # producent
         #print('producent:')
         print(manufacturer)
-        price_box = offers.find('div', class_='price-box-entities').get_text()      # cena
+        #price_box = offers.find('div', class_='price-box-entities').get_text()      # cena
         #print('koszt:')
-        print(price_box)
+        #print(price_box)
+        for price_old_box in offers.find_all('p', class_='old-price'):
+            #print(price_old_box)
+            price_old = price_old_box.find('span', class_='price').get_text()
+            print(price_old)
+        for price_special_box in offers.find_all('p', class_='special-price'):
+            price_special = price_special_box.find('span', class_='price').get_text()
+            print(price_special)
 
     #todo modify:
-    #price_old = offers.find('span', class_='price').get_text()
-    #print(price_old)
-    #price = offers.find('span', class_='price').get_text()  #TODO zmienić
-    #print(price)
 
     date_available = offers.find('p', {"class": ["availability replenishment date-available", "availability in-stock date-available", "availability in-stock date-available replenishment"]}).getText()
     print('data:')
