@@ -38,7 +38,10 @@ for offers in bs.find('ul', class_='products-grid'):
     for auction in bs_auction.find_all('div', class_='wrapper'):
         delivery = auction.find('span', class_='shipping').get_text()
         print(delivery)
-
+        for product_collateral in auction.find_all('div', class_='product-collateral'):
+            #print(product_collateral)
+            description = product_collateral.find('div', class_='toggle-content std').get_text()
+            print(description)
 
         #todo darmowa dostawa:
         #for cart_benefits in auction.find_all('strong', class_='span'):
@@ -46,5 +49,5 @@ for offers in bs.find('ul', class_='products-grid'):
         #for shipping in auction.find('span', class_='shipping').get_text():
             #print(shipping)
 
-
+    print('\n')
     break
