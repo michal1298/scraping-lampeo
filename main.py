@@ -5,8 +5,8 @@ from requests import get
 def parse_price(price):  # zamiana stringa na liczbę zmiennoprzecinkową
     return price.replace(' ', '').replace('zł', '').replace(',', '.')
 
-#URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
-URL = 'https://www.lampy.pl/oswietlenie-wewnetrzne/sypialnia-ra/'
+URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
+#URL = 'https://www.lampy.pl/oswietlenie-wewnetrzne/sypialnia-ra/'
 
 page = get(URL)
 
@@ -142,10 +142,40 @@ for offers in bs.find_all('li', class_='item'):
             #    print(x)
 
 
+            product_table_feature = []      # nazwy cech właściwości produktu
+            product_table_feature.append('nazwa produktu')
+            product_table_feature.append('producent')
+            product_table_feature.append('cena promocyjna')
+            product_table_feature.append('cena')
+            product_table_feature.append('koszt dostawy')
+            product_table_feature.append('termin dostawy')
+            product_table_feature.append('nagłówek opisu')
+            product_table_feature.append('opis')
+            product_table_feature.append('specyfikacja')
+            print(product_table_feature)
 
 
+            product_table = []          # właściwości produktu
+            product_table.append(product_name)
+            product_table.append(manufacturer)
+            product_table.append(price_special)
+            product_table.append(regular_price)
+            product_table.append(delivery_cost)
+            product_table.append(date_available)
+            product_table.append(description_title)
+            product_table.append(description)
+            product_table.append(merged_list_specify)
+            print(product_table)
 
 
+            # merge feature and properties of product:
+            product_all_info = {}
+            for key in product_table_feature:
+                for value in product_table:
+                    product_all_info[key] = value
+                    product_table.remove(value)
+                    break
+            print(product_all_info)
 
         #todo darmowa dostawa - jest uzależniona od wartości kupionego przedmiotu
         #for cart_benefits in auction.find_all('strong', class_='span'):
