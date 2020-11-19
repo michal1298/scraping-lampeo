@@ -105,31 +105,41 @@ for offers in bs.find_all('li', class_='item'):
                 #print(product_specify_head)
                 product_specify = (product_specify.text).rstrip('\n')       # delete \n
                 headings.append(product_specify)
-            print(headings)
+            #print(headings)
 
-            number_of_rows = 0     # liczba właściwości
+            #number_of_rows = 0     # liczba właściwości
             properties = []     # for specify
             for product_properties in product_collateral.find_all('td'):
-                number_of_rows = number_of_rows + 1
-               #print(product_properties_head)
+                #number_of_rows = number_of_rows + 1
+                #print(product_properties_head)
                 product_properties = (product_properties.text).rstrip('\n')
                 properties.append(product_properties)
-            print(properties)
+            #print(properties)
 
-            print('liczba właściwości:')
-            print(number_of_rows)
+            #print('liczba właściwości:')
+            #print(number_of_rows)
 
-            # merge two list into single one:   #todo
-            columns = 2
-            row = number_of_rows
+            # merge two list into single one:
+            #columns = 2
+            #row = number_of_rows
 
-            merged_list_specify = [[0 for x in range(row)] for y in range(columns)]
+            #merged_list_specify = [[0 for x in range(row)] for y in range(columns)]     # lista z samymi zerami
+            merged_list_specify = {}
+            for key in headings:
+                for value in properties:
+                    merged_list_specify[key] = value
+                    properties.remove(value)
+                    break
+
+
             print(merged_list_specify)
 
             #print('pętla for:')
             #x = 0
             #for x in headings:
-            #    merged_list_specify[x][]
+            #    print(x)
+            #for x in properties:
+            #    print(x)
 
 
 
