@@ -5,7 +5,7 @@ from requests import get
 def parse_price(price):  # zamiana stringa na liczbę zmiennoprzecinkową
     return price.replace(' ', '').replace('zł', '').replace(',', '.')
 
-#URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'
+#URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
 URL = 'https://www.lampy.pl/oswietlenie-wewnetrzne/sypialnia-ra/'
 
 page = get(URL)
@@ -40,8 +40,8 @@ for offers in bs.find_all('li', class_='item'):
 
 
     url_auction = offers.find('a')
-    url_auction = (url_auction['href'])
-    print(url_auction)                      # link do aukcji
+    url_auction = (url_auction['href'])     # link do aukcji
+    print(url_auction)
     url_auction = get(url_auction)
 
     # ---------------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ for offers in bs.find_all('li', class_='item'):
     bs_auction = BeautifulSoup(url_auction.content, 'html.parser')
     #time.sleep(2)
     for auction in bs_auction.find_all('div', class_='wrapper'):
-        delivery = auction.find('span', class_='shipping').get_text().rstrip('\n').strip()
+        delivery = auction.find('span', class_='shipping').get_text().rstrip('\n').strip()  # czy darmowa dostawa
         print(delivery)
 
         #float (price_special)
@@ -60,7 +60,7 @@ for offers in bs.find_all('li', class_='item'):
             expensive_shipping_str = str(expensive_shipping)
             #delivery_cost = 32.0
             if(price_special or regular_price) < expensive_shipping_str:
-                delivery_cost = 32.0        #todo nigdy nie ma 32
+                delivery_cost = 32.0        #todo nigdy nie ma 32; ciągle jest 20
             #elif (price_special or regular_price) >= 100:
             elif(price_special or regular_price) >= expensive_shipping_str:
                 delivery_cost = 20.0
@@ -77,7 +77,7 @@ for offers in bs.find_all('li', class_='item'):
             #description = product_collateral.find('div', class_='toggle-content std').get_text()
             #print(description)
 
-            date_available = offers.find('p', {"class": ["availability replenishment date-available", "availability in-stock date-available", "availability in-stock date-available replenishment", "availability replenishment date-available ", "availability currently-not-available"]}).getText().strip()
+            date_available = offers.find('p', {"class": ["availability replenishment date-available", "availability in-stock date-available", "availability in-stock date-available replenishment", "availability replenishment date-available ", "availability currently-not-available"]}).getText().strip()       # czas dostawy
             # print('data:')
             print(date_available)   #todo Żarówka LED E27 ToLEDo RT A60 7W przezroczysta się wysypuje
                                     #todo ICONE Vera ST - designerska lampa stojąca LED
@@ -100,19 +100,40 @@ for offers in bs.find_all('li', class_='item'):
             #product_specify = product_collateral.find('table', class_='toggle-content zebra-table').get_text()
             #print(product_specify)
 
-            headings = []   # for categories names
+            headings = []       # for categories names
             for product_specify in product_collateral.find_all('th'):
                 #print(product_specify_head)
                 product_specify = (product_specify.text).rstrip('\n')       # delete \n
                 headings.append(product_specify)
             print(headings)
 
+            number_of_rows = 0     # liczba właściwości
             properties = []     # for specify
             for product_properties in product_collateral.find_all('td'):
-                #print(product_properties_head)
+                number_of_rows = number_of_rows + 1
+               #print(product_properties_head)
                 product_properties = (product_properties.text).rstrip('\n')
                 properties.append(product_properties)
             print(properties)
+
+            print('liczba właściwości:')
+            print(number_of_rows)
+
+            # merge two list into single one:   #todo
+            columns = 2
+            row = number_of_rows
+
+            merged_list_specify = [[0 for x in range(row)] for y in range(columns)]
+            print(merged_list_specify)
+
+            #print('pętla for:')
+            #x = 0
+            #for x in headings:
+            #    merged_list_specify[x][]
+
+
+
+
 
 
 
