@@ -10,7 +10,7 @@ URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku począ
 
 page = get(URL)
 
-# in category:
+# w kategorii:
 bs = BeautifulSoup(page.content, 'html.parser')
 for offers in bs.find_all('li', class_='item'):
     #print(offers)
@@ -45,7 +45,7 @@ for offers in bs.find_all('li', class_='item'):
     url_auction = get(url_auction)
 
     # ---------------------------------------------------------------------------------------------------
-    # in auction:
+    # w aukcji:
     #print('aukcja:\n')
     bs_auction = BeautifulSoup(url_auction.content, 'html.parser')
     #time.sleep(2)
@@ -55,17 +55,19 @@ for offers in bs.find_all('li', class_='item'):
 
         #float (price_special)
         #float (regular_price)
-        if(delivery) == 'Należy doliczyć koszty wysyłki':
+        if (delivery) == 'Należy doliczyć koszty wysyłki':
             expensive_shipping = 100.0
             expensive_shipping_str = str(expensive_shipping)
             #delivery_cost = 32.0
-            if(price_special or regular_price) < expensive_shipping_str:
+            if (price_special or regular_price) < expensive_shipping_str:
                 delivery_cost = 32.0        #todo nigdy nie ma 32; ciągle jest 20
+                break
             #elif (price_special or regular_price) >= 100:
-            elif(price_special or regular_price) >= expensive_shipping_str:
+            elif(price_special or regular_price > expensive_shipping_str):
                 delivery_cost = 20.0
-        elif(delivery) == 'bezpłatna dostawa na terenie Polski , Dodatkowa opłata za dostawę artykułów o dużych gabarytach':        #todo nie działa
+        elif(delivery) == 'bezpłatna dostawa na terenie Polski , Dodatkowa opłata za dostawę artykułów o dużych gabarytach':        #todo nie działa - jest tam znak nowej linii
             delivery_cost = 35.0
+            #break
         else:
             delivery_cost = 0.0
 
@@ -79,7 +81,10 @@ for offers in bs.find_all('li', class_='item'):
 
             date_available = offers.find('p', {"class": ["availability replenishment date-available", "availability in-stock date-available", "availability in-stock date-available replenishment", "availability replenishment date-available ", "availability currently-not-available"]}).getText().strip()       # czas dostawy
             # print('data:')
-            print(date_available)   #todo Żarówka LED E27 ToLEDo RT A60 7W przezroczysta się wysypuje
+
+            date_available = date_available.replace("Termin dostawy: ", "")#.replace(' dni', "").replace(' tygodni', '')
+            print(date_available)
+                                    #todo Żarówka LED E27 ToLEDo RT A60 7W przezroczysta się wysypuje
                                     #todo ICONE Vera ST - designerska lampa stojąca LED
                                     #todo Lampa LED oświetlająca sufit Felicja z lampką
                                     #todo https://www.lampy.pl/foscarini-twiggy-be-colour-lampa-lukowa-led.html wysypuje się, bo na początku wyświetla się 'niedostępny', później zmienia się na 2-3 tygodnie
@@ -93,22 +98,18 @@ for offers in bs.find_all('li', class_='item'):
                 print(description)
 
 
-
-
-
-
             #product_specify = product_collateral.find('table', class_='toggle-content zebra-table').get_text()
             #print(product_specify)
 
-            headings = []       # for categories names
+            headings = []       # nazwy kategorii
             for product_specify in product_collateral.find_all('th'):
                 #print(product_specify_head)
-                product_specify = (product_specify.text).rstrip('\n')       # delete \n
+                product_specify = (product_specify.text).rstrip('\n')       # usunięcie \n
                 headings.append(product_specify)
             #print(headings)
 
             #number_of_rows = 0     # liczba właściwości
-            properties = []     # for specify
+            properties = []     # do specyfikacji
             for product_properties in product_collateral.find_all('td'):
                 #number_of_rows = number_of_rows + 1
                 #print(product_properties_head)
@@ -152,20 +153,20 @@ for offers in bs.find_all('li', class_='item'):
             product_table_feature.append('nagłówek opisu')
             product_table_feature.append('opis')
             product_table_feature.append('specyfikacja')
-            print(product_table_feature)
+            #print(product_table_feature)
 
 
             product_table = []          # właściwości produktu
             product_table.append(product_name)
             product_table.append(manufacturer)
             product_table.append(price_special)
-            product_table.append(regular_price)
-            product_table.append(delivery_cost)
+            product_table.append(regular_price)     #todo usunąć \xa0
+            product_table.append(delivery_cost)     #todo usunąć \xa0
             product_table.append(date_available)
             product_table.append(description_title)
             product_table.append(description)
             product_table.append(merged_list_specify)
-            print(product_table)
+            #print(product_table)
 
 
             # merge feature and properties of product:
@@ -177,7 +178,6 @@ for offers in bs.find_all('li', class_='item'):
                     break
             print(product_all_info)
 
-        #todo darmowa dostawa - jest uzależniona od wartości kupionego przedmiotu
         #for cart_benefits in auction.find_all('strong', class_='span'):
             #print(cart_benefits)
         #for shipping in auction.find('span', class_='shipping').get_text():
