@@ -2,7 +2,7 @@
 
 ## Requirements
 python3\
-pip
+pip3
 ## Preparation project folder
 ```
 pip install bs4

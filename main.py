@@ -32,10 +32,15 @@ for offers in bs.find_all('li', class_='item'):
             #print(price_old)
         for price_special_box in offers.find_all('p', class_='special-price'):
             price_special = parse_price(price_special_box.find('span', class_='price').get_text().strip())
+            price_special = price_special.replace(u'\xa0', u'')
+            price_special.replace(' ', '')
+            #float(price_special)
             print(price_special)
         #regular_price = offers.find('span', class_='price').get_text().strip()
         #print(regular_price)
         regular_price = parse_price(offers.find('span', class_='price').get_text().strip())
+        regular_price = regular_price.replace(u'\xa0', u'')
+        regular_price.replace(' ', '')
         print(regular_price)
 
 
@@ -160,8 +165,8 @@ for offers in bs.find_all('li', class_='item'):
             product_table.append(product_name)
             product_table.append(manufacturer)
             product_table.append(price_special)
-            product_table.append(regular_price)     #todo usunąć \xa0
-            product_table.append(delivery_cost)     #todo usunąć \xa0
+            product_table.append(regular_price)
+            product_table.append(delivery_cost)
             product_table.append(date_available)
             product_table.append(description_title)
             product_table.append(description)
