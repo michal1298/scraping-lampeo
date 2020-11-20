@@ -54,15 +54,21 @@ for offers in bs.find_all('li', class_='item'):
         #print(type(regular_price))
 
 
-    url_auction = offers.find('a')
-    url_auction = (url_auction['href'])     # link do aukcji
-    print(url_auction)
-    url_auction = get(url_auction)
+    request = offers.find('a')
+    request = (request['href'])     # link do aukcji
+    print(request)
+    request = get(request)
+
+    # sprawdzenie kodu:
+    print(request.status_code)
+    if(request.status_code != 200):
+        print('kod strony inny niż 200')
+        break
 
     # ---------------------------------------------------------------------------------------------------
     # w aukcji:
     #print('aukcja:\n')
-    bs_auction = BeautifulSoup(url_auction.content, 'html.parser')
+    bs_auction = BeautifulSoup(request.content, 'html.parser')
     #time.sleep(2)
     for auction in bs_auction.find_all('div', class_='wrapper'):
         delivery = auction.find('span', class_='shipping').get_text().strip()  # czy darmowa dostawa
@@ -199,8 +205,10 @@ for offers in bs.find_all('li', class_='item'):
         #for shipping in auction.find('span', class_='shipping').get_text():
             #print(shipping)
 
-    price_special = None
+    price_special = None    # kiedy produkt nie posiadał ceny promocyjnej, zapisywana została cena promocyjna z poprzedniego produktu
     print('\n')
     #break
 
-    #todo wysypało się, kiedy produktu już nie było, a był jeszcze wyświetlany w liście w kategorii, np B-Leuchten Miami lampa LED oświetlająca sufit
+    #todo wysypało się, kiedy produktu już nie było, a był jeszcze wyświetlany w liście w kategorii, np B-Leuchten Miami lampa LED oświetlająca sufit - prawdopodobnie rozwiązane
+    #todo sprawdzanie wersji danego produktu i informacji o nim
+    #todo przejście do następnej strony
