@@ -6,7 +6,7 @@ def parse_price(price):  # zamiana stringa na liczbę zmiennoprzecinkową
     return price.replace(' ', '').replace('zł', '').replace(',', '.')
 
 URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
-#URL = 'https://www.lampy.pl/oswietlenie-wewnetrzne/sypialnia-ra/'
+#URL = 'https://www.lampy.pl/inteligentne-ogrzewanie/'
 
 page = get(URL)
 
@@ -30,6 +30,7 @@ for offers in bs.find_all('li', class_='item'):
             #print(price_old_box)
             #price_old = parse_price(price_old_box.find('span', class_='price').get_text())
             #print(price_old)
+        price_special = None
         for price_special_box in offers.find_all('p', class_='special-price'):
             price_special = parse_price(price_special_box.find('span', class_='price').get_text().strip())
             #price_special = price_special_box.find('span', class_='price').get_text().strip()
@@ -65,11 +66,17 @@ for offers in bs.find_all('li', class_='item'):
         print('kod strony inny niż 200')
         break
 
+    for page_section in bs.find_all('div', class_='toolbar toolbar-bottom'):
+        #print(page_section)
+        next_page = page_section.find('a', class_='next')
+        next_page = (next_page['href'])     # link do następnej strony w kategorii
+        #print(next_page)
+
     # ---------------------------------------------------------------------------------------------------
     # w aukcji:
     #print('aukcja:\n')
     bs_auction = BeautifulSoup(request.content, 'html.parser')
-    #time.sleep(2)
+    #time.sleep(3)
     for auction in bs_auction.find_all('div', class_='wrapper'):
         delivery = auction.find('span', class_='shipping').get_text().strip()  # czy darmowa dostawa
         #delivery = delivery.rstrip("\n")
@@ -110,6 +117,7 @@ for offers in bs.find_all('li', class_='item'):
                                     #todo ICONE Vera ST - designerska lampa stojąca LED
                                     #todo Lampa LED oświetlająca sufit Felicja z lampką
                                     #todo https://www.lampy.pl/foscarini-twiggy-be-colour-lampa-lukowa-led.html wysypuje się, bo na początku wyświetla się 'niedostępny', później zmienia się na 2-3 tygodnie
+                                    #todo https://www.lampy.pl/philips-hue-iris-waca-lampa-stolowa-led.html
 
             for toggle_content in product_collateral.find_all("div", class_='toggle-content std'):
                 #print(toggle_content)
@@ -209,6 +217,9 @@ for offers in bs.find_all('li', class_='item'):
     print('\n')
     #break
 
+print('następna strona aukcji: ', next_page)    # link do następnej strony aukcji
+
     #todo wysypało się, kiedy produktu już nie było, a był jeszcze wyświetlany w liście w kategorii, np B-Leuchten Miami lampa LED oświetlająca sufit - prawdopodobnie rozwiązane
     #todo sprawdzanie wersji danego produktu i informacji o nim
     #todo przejście do następnej strony
+    #todo zdjęcia z aukcji
