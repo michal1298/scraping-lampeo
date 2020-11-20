@@ -65,8 +65,11 @@ for offers in bs.find_all('li', class_='item'):
     bs_auction = BeautifulSoup(url_auction.content, 'html.parser')
     #time.sleep(2)
     for auction in bs_auction.find_all('div', class_='wrapper'):
-        delivery = auction.find('span', class_='shipping').get_text().rstrip('\n').strip()  # czy darmowa dostawa
+        delivery = auction.find('span', class_='shipping').get_text().strip()  # czy darmowa dostawa
+        #delivery = delivery.rstrip("\n")
         print(delivery)
+        #print('wszystkie znaki w wysyłce:')
+        #print(repr(delivery))
 
         #float (price_special)
         #float (regular_price)
@@ -79,7 +82,7 @@ for offers in bs.find_all('li', class_='item'):
             #elif (price_special or regular_price) >= 100:
             elif(price_special or regular_price >= 100.0):
                 delivery_cost = 20.0
-        elif(delivery) == 'bezpłatna dostawa na terenie Polski , Dodatkowa opłata za dostawę artykułów o dużych gabarytach':        #todo nie działa - jest tam znak nowej linii
+        elif(delivery) == 'bezpłatna dostawa na terenie Polski\n, Dodatkowa opłata za dostawę artykułów o dużych gabarytach':
             delivery_cost = 35.0
         else:
             delivery_cost = 0.0
