@@ -65,6 +65,7 @@ for offers in bs.find_all('li', class_='item'):
     if(request.status_code != 200):
         print('kod strony inny niż 200')
         break
+        #todo przejście do następnej oferty - tylko raz się ten błąd zdarzył
 
     for page_section in bs.find_all('div', class_='toolbar toolbar-bottom'):
         #print(page_section)
@@ -108,16 +109,15 @@ for offers in bs.find_all('li', class_='item'):
             #description = product_collateral.find('div', class_='toggle-content std').get_text()
             #print(description)
 
-            date_available = offers.find('p', {"class": ["availability replenishment date-available", "availability in-stock date-available", "availability in-stock date-available replenishment", "availability replenishment date-available ", "availability currently-not-available"]}).getText().strip()       # czas dostawy
+            try:
+                date_available = offers.find('p', {"class": ["availability replenishment date-available", "availability in-stock date-available", "availability in-stock date-available replenishment", "availability replenishment date-available ", "availability currently-not-available"]}).getText().strip()       # czas dostawy
+            except:
+                date_available = 'towar niedostępny'
+                #date_available['val1'].append(date_available.text if date_available else "towar niedostępny")
             # print('data:')
 
             date_available = date_available.replace("Termin dostawy: ", "")#.replace(' dni', "").replace(' tygodni', '')
             print(date_available)
-                                    #todo Żarówka LED E27 ToLEDo RT A60 7W przezroczysta się wysypuje
-                                    #todo ICONE Vera ST - designerska lampa stojąca LED
-                                    #todo Lampa LED oświetlająca sufit Felicja z lampką
-                                    #todo https://www.lampy.pl/foscarini-twiggy-be-colour-lampa-lukowa-led.html wysypuje się, bo na początku wyświetla się 'niedostępny', później zmienia się na 2-3 tygodnie
-                                    #todo https://www.lampy.pl/philips-hue-iris-waca-lampa-stolowa-led.html
 
             for toggle_content in product_collateral.find_all("div", class_='toggle-content std'):
                 #print(toggle_content)
@@ -217,7 +217,7 @@ for offers in bs.find_all('li', class_='item'):
     print('\n')
     #break
 
-print('następna strona aukcji: ', next_page)    # link do następnej strony aukcji
+#print('następna strona aukcji: ', next_page)    # link do następnej strony aukcji
 
     #todo wysypało się, kiedy produktu już nie było, a był jeszcze wyświetlany w liście w kategorii, np B-Leuchten Miami lampa LED oświetlająca sufit - prawdopodobnie rozwiązane
     #todo sprawdzanie wersji danego produktu i informacji o nim
