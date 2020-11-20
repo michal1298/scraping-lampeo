@@ -32,16 +32,26 @@ for offers in bs.find_all('li', class_='item'):
             #print(price_old)
         for price_special_box in offers.find_all('p', class_='special-price'):
             price_special = parse_price(price_special_box.find('span', class_='price').get_text().strip())
+            #price_special = price_special_box.find('span', class_='price').get_text().strip()
             price_special = price_special.replace(u'\xa0', u'')
-            price_special.replace(' ', '')
-            #float(price_special)
+            #price_special.replace(' ', '')
+            #price_special.replace('zł', '')
+            #price_special.replace(',', '.')
+            price_special = float(price_special)
             print(price_special)
+            #print(type(price_special))
         #regular_price = offers.find('span', class_='price').get_text().strip()
         #print(regular_price)
         regular_price = parse_price(offers.find('span', class_='price').get_text().strip())
         regular_price = regular_price.replace(u'\xa0', u'')
-        regular_price.replace(' ', '')
+        #regular_price.replace(' ', '')
+        #regular_price.replace('zł', '')
+        #regular_price.replace(',', '.')
+        #print('cena string:', regular_price)
+        regular_price = float(regular_price)
+        #print('cena float:', regular_price)
         print(regular_price)
+        #print(type(regular_price))
 
 
     url_auction = offers.find('a')
@@ -61,18 +71,16 @@ for offers in bs.find_all('li', class_='item'):
         #float (price_special)
         #float (regular_price)
         if (delivery) == 'Należy doliczyć koszty wysyłki':
-            expensive_shipping = 100.0
-            expensive_shipping_str = str(expensive_shipping)
+            #expensive_shipping = 100.0
+            #expensive_shipping_str = str(expensive_shipping)
             #delivery_cost = 32.0
-            if (price_special or regular_price) < expensive_shipping_str:
-                delivery_cost = 32.0        #todo nigdy nie ma 32; ciągle jest 20
-                break
+            if (price_special or regular_price) < 100.0:
+                delivery_cost = 32.0
             #elif (price_special or regular_price) >= 100:
-            elif(price_special or regular_price > expensive_shipping_str):
+            elif(price_special or regular_price >= 100.0):
                 delivery_cost = 20.0
         elif(delivery) == 'bezpłatna dostawa na terenie Polski , Dodatkowa opłata za dostawę artykułów o dużych gabarytach':        #todo nie działa - jest tam znak nowej linii
             delivery_cost = 35.0
-            #break
         else:
             delivery_cost = 0.0
 
@@ -188,6 +196,7 @@ for offers in bs.find_all('li', class_='item'):
         #for shipping in auction.find('span', class_='shipping').get_text():
             #print(shipping)
 
+    price_special = None
     print('\n')
     #break
 
