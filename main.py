@@ -5,8 +5,8 @@ from requests import get
 def parse_price(price):  # zamiana stringa na liczbę zmiennoprzecinkową
     return price.replace(' ', '').replace('zł', '').replace(',', '.')
 
-URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
-#URL = 'https://www.lampy.pl/inteligentne-ogrzewanie/'
+#URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
+URL = 'https://www.lampy.pl/oswietlenie-swiateczne/?p=10'
 
 page = get(URL)
 
@@ -66,13 +66,17 @@ for offers in bs.find_all('li', class_='item'):
     if(request.status_code != 200):
         print('kod strony inny niż 200')
         break
-        #todo przejście do następnej oferty - tylko raz się ten błąd zdarzył
-
+        #todo przejście do następnej oferty - tylko raz się ten błąd zdarzył:
+        #todo https://www.lampy.pl/gu10-5-5w-840-led-zarowka-refl-superstar-36.html - 410
+    next_page = None
     for page_section in bs.find_all('div', class_='toolbar toolbar-bottom'):
         #print(page_section)
-        next_page = page_section.find('a', class_='next')
-        next_page = (next_page['href'])     # link do następnej strony w kategorii
-        #print(next_page)
+        try:
+            next_page = page_section.find('a', class_='next')
+            next_page = (next_page['href'])     # link do następnej strony w kategorii
+        except:
+            next_page = None
+
 
     # ---------------------------------------------------------------------------------------------------
     # w aukcji:
@@ -120,13 +124,21 @@ for offers in bs.find_all('li', class_='item'):
             date_available = date_available.replace("Termin dostawy: ", "")#.replace(' dni', "").replace(' tygodni', '')
             print(date_available)
 
+            description_title = None
+            description = None
             for toggle_content in product_collateral.find_all("div", class_='toggle-content std'):
                 #print(toggle_content)
-                description_title = toggle_content.find('h2').get_text().strip()        # nagłówek opisu
-                print(description_title)
+                try:
+                    description_title = toggle_content.find('h2').get_text().strip()        # nagłówek opisu
+                    print(description_title)
+                except:
+                    description_title = ''
 
-                description = toggle_content.find('p').get_text().strip()       # opis
-                print(description)
+                try:
+                    description = toggle_content.find('p').get_text().strip()       # opis
+                    print(description)
+                except:
+                    description = ''
 
 
             #product_specify = product_collateral.find('table', class_='toggle-content zebra-table').get_text()
@@ -241,9 +253,8 @@ for offers in bs.find_all('li', class_='item'):
     print('\n')
     #break
 
-#print('następna strona aukcji: ', next_page)    # link do następnej strony aukcji
+print('następna strona aukcji:', next_page)    # link do następnej strony aukcji
 
     #todo wysypało się, kiedy produktu już nie było, a był jeszcze wyświetlany w liście w kategorii, np B-Leuchten Miami lampa LED oświetlająca sufit - prawdopodobnie rozwiązane
     #todo sprawdzanie wersji danego produktu i informacji o nim
     #todo przejście do następnej strony
-    #todo zdjęcia z aukcji
