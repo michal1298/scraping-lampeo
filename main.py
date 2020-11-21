@@ -56,6 +56,7 @@ for offers in bs.find_all('li', class_='item'):
 
 
     request = offers.find('a')
+    #print(type(request))
     request = (request['href'])     # link do aukcji
     print(request)
     request = get(request)
@@ -217,8 +218,16 @@ for offers in bs.find_all('li', class_='item'):
             #print(swiper_wrapper)
             for swiper_slide in swiper_wrapper.find_all('div', class_='swiper-slide'):
                 #print(swiper_slide)
-                image = swiper_slide.find_all('source', type='image/jpeg')
-                image = image
+                image = swiper_slide.find('source', type='image/jpeg')
+                #image = image(attrs = {"img":"srcset"})
+                #image = slice(image)
+                try:
+                    image = (image['srcset'])
+                except:
+                    image = (image['data-srcset'])
+                #print(image)
+                #image.replace('" type="image/jpeg"/>', '')
+                #image = image["image/jpeg"]
                 print(image)
 
 
