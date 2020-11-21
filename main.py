@@ -214,6 +214,7 @@ for offers in bs.find_all('li', class_='item'):
         #for shipping in auction.find('span', class_='shipping').get_text():
             #print(shipping)
 
+        photos = [] # tablica na linki do zdjęć
         for swiper_wrapper in auction.find_all('div', class_='swiper-wrapper'):     # wyszukiwanie linków do zdjęć .jpg
             #print(swiper_wrapper)
             for swiper_slide in swiper_wrapper.find_all('div', class_='swiper-slide'):
@@ -228,7 +229,10 @@ for offers in bs.find_all('li', class_='item'):
                 #print(image)
                 #image.replace('" type="image/jpeg"/>', '')
                 #image = image["image/jpeg"]
-                print(image)
+                #print(image)
+
+                photos.append(image)
+        print (photos)
 
 
 
