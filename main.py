@@ -216,8 +216,10 @@ for offers in bs.find_all('li', class_='item'):
         for swiper_wrapper in auction.find_all('div', class_='swiper-wrapper'):     # wyszukiwanie linków do zdjęć .jpg
             #print(swiper_wrapper)
             for swiper_slide in swiper_wrapper.find_all('div', class_='swiper-slide'):
-                print(swiper_slide)
-                #image = swiper_slide.find_all()
+                #print(swiper_slide)
+                image = swiper_slide.find_all('source', type='image/jpeg')
+                image = image
+                print(image)
 
 
 
