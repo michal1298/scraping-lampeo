@@ -213,6 +213,15 @@ for offers in bs.find_all('li', class_='item'):
         #for shipping in auction.find('span', class_='shipping').get_text():
             #print(shipping)
 
+        for swiper_wrapper in auction.find_all('div', class_='swiper-wrapper'):     # wyszukiwanie linków do zdjęć .jpg
+            #print(swiper_wrapper)
+            for swiper_slide in swiper_wrapper.find_all('div', class_='swiper-slide'):
+                print(swiper_slide)
+                #image = swiper_slide.find_all()
+
+
+
+
     price_special = None    # kiedy produkt nie posiadał ceny promocyjnej, zapisywana została cena promocyjna z poprzedniego produktu
     print('\n')
     #break
