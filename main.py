@@ -10,6 +10,9 @@ URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku począ
 
 page = get(URL)
 
+number_of_products = 0  # liczba pobranych produktów
+products_to_scraping = 0    # ilość produktów do pobrania; 0 jeśli ma zostać pobrana cała strona
+
 # w kategorii:
 bs = BeautifulSoup(page.content, 'html.parser')
 for offers in bs.find_all('li', class_='item'):
@@ -76,7 +79,6 @@ for offers in bs.find_all('li', class_='item'):
             next_page = (next_page['href'])     # link do następnej strony w kategorii
         except:
             next_page = None
-
 
     # ---------------------------------------------------------------------------------------------------
     # w aukcji:
@@ -257,14 +259,16 @@ for offers in bs.find_all('li', class_='item'):
                 photos.append(image)        # dodanie zdjęć do listy / tablicy ze zdjęciami
         print (photos)
 
-
-
+    number_of_products = number_of_products + 1  # zliczanie ilości pobranych produktów
+    if (number_of_products == products_to_scraping):
+        break
 
     price_special = None    # kiedy produkt nie posiadał ceny promocyjnej, zapisywana została cena promocyjna z poprzedniego produktu
     print('\n')
     #break
 
 print('następna strona aukcji:', next_page)    # link do następnej strony aukcji
+print('ilość pobranych produktów:', number_of_products)
 
     #todo wysypało się, kiedy produktu już nie było, a był jeszcze wyświetlany w liście w kategorii, np B-Leuchten Miami lampa LED oświetlająca sufit - prawdopodobnie rozwiązane
     #todo sprawdzanie wersji danego produktu i informacji o nim
