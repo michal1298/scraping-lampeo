@@ -5,8 +5,8 @@ from requests import get
 def parse_price(price):  # zamiana stringa na liczbę zmiennoprzecinkową
     return price.replace(' ', '').replace('zł', '').replace(',', '.')
 
-#URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
-URL = 'https://www.lampy.pl/oswietlenie-swiateczne/?p=10'
+URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
+#URL = 'https://www.lampy.pl/oswietlenie-biurowe/'
 
 page = get(URL)
 
@@ -231,19 +231,30 @@ for offers in bs.find_all('li', class_='item'):
             #print(swiper_wrapper)
             for swiper_slide in swiper_wrapper.find_all('div', class_='swiper-slide'):
                 #print(swiper_slide)
-                image = swiper_slide.find('source', type='image/jpeg')
+                #image = swiper_slide.find('source', type='image/jpeg')      # rozdzielczość 535x535
+                image = swiper_slide.find('img')                             # rozdzielczość 1600x1600
+                #print(image)
                 #image = image(attrs = {"img":"srcset"})
                 #image = slice(image)
+
+                # rozdzielczość 535x535:
+                #try:
+                #    image = (image['srcset'])
+                #except:
+                #    image = (image['data-srcset'])
+
+                # rozdzielczość 1600x1600:
                 try:
-                    image = (image['srcset'])
+                    image = (image['data-src'])
                 except:
-                    image = (image['data-srcset'])
+                    image = (image['src'])
+
                 #print(image)
                 #image.replace('" type="image/jpeg"/>', '')
                 #image = image["image/jpeg"]
                 #print(image)
 
-                photos.append(image)
+                photos.append(image)        # dodanie zdjęć do listy / tablicy ze zdjęciami
         print (photos)
 
 
