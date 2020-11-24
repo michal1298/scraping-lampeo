@@ -1,17 +1,26 @@
 from bs4 import BeautifulSoup
 from requests import get
+import sys
 #import time
+
+print('podany link:', sys.argv[1])
+print('podana ilość produktów:', sys.argv[2])
+#print(type(sys.argv[2]))
+sys.argv[2] = int(sys.argv[2])      # zmiana string na int
+#print(type(sys.argv[2]))
 
 def parse_price(price):  # zamiana stringa na liczbę zmiennoprzecinkową
     return price.replace(' ', '').replace('zł', '').replace(',', '.')
 
-URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
+#URL = 'https://www.lampy.pl/lampy-wiszace-do-kuchni/'      # na tym linku początkowo robiłem
 #URL = 'https://www.lampy.pl/oswietlenie-biurowe/'
+URL = sys.argv[1]       # podany link
 
 page = get(URL)
 
 number_of_products = 0  # liczba pobranych produktów
 products_to_scraping = 0    # ilość produktów do pobrania; 0 jeśli ma zostać pobrana cała strona
+products_to_scraping = sys.argv[2]      # podana ilość produktów
 
 # w kategorii:
 bs = BeautifulSoup(page.content, 'html.parser')
