@@ -3,8 +3,12 @@ from requests import get
 import sys
 #import time
 
-print('podany link:', sys.argv[1])
-print('podana ilość produktów:', sys.argv[2])
+if len(sys.argv) < 3:
+    print('Użycie: {} {{link}} {{liczba_produktów}}'.format(sys.argv[0]))
+    sys.exit()
+
+#print('podany link:', sys.argv[1])
+#print('podana ilość produktów:', sys.argv[2])
 #print(type(sys.argv[2]))
 sys.argv[2] = int(sys.argv[2])      # zmiana string na int
 #print(type(sys.argv[2]))
@@ -31,10 +35,10 @@ for offers in bs.find_all('li', class_='item'):
         #print(product_info)
         product_name = offers.find('p', class_='product-name').get_text().strip()      # nazwa produktu
         #print('product name:')
-        print(product_name)
+        #print(product_name)
         manufacturer = offers.find('p', class_='product-manufacturer').get_text().strip()   # producent
         #print('producent:')
-        print(manufacturer)
+        #print(manufacturer)
         #price_box = offers.find('div', class_='price-box-entities').get_text()      # cena
         #print('koszt:')
         #print(price_box)
@@ -51,7 +55,7 @@ for offers in bs.find_all('li', class_='item'):
             #price_special.replace('zł', '')
             #price_special.replace(',', '.')
             price_special = float(price_special)
-            print(price_special)
+            #print(price_special)
             #print(type(price_special))
         #regular_price = offers.find('span', class_='price').get_text().strip()
         #print(regular_price)
@@ -61,20 +65,20 @@ for offers in bs.find_all('li', class_='item'):
         #regular_price.replace('zł', '')
         #regular_price.replace(',', '.')
         #print('cena string:', regular_price)
-        regular_price = float(regular_price)
+        #regular_price = float(regular_price)
         #print('cena float:', regular_price)
-        print(regular_price)
+        #print(regular_price)
         #print(type(regular_price))
 
 
     request = offers.find('a')
     #print(type(request))
     request = (request['href'])     # link do aukcji
-    print(request)
+    #print(request)
     request = get(request)
 
     # sprawdzenie kodu:
-    print(request.status_code)
+    #print(request.status_code)
     if(request.status_code != 200):
         print('kod strony inny niż 200')
         break
@@ -97,7 +101,7 @@ for offers in bs.find_all('li', class_='item'):
     for auction in bs_auction.find_all('div', class_='wrapper'):
         delivery = auction.find('span', class_='shipping').get_text().strip()  # czy darmowa dostawa
         #delivery = delivery.rstrip("\n")
-        print(delivery)
+        #print(delivery)
         #print('wszystkie znaki w wysyłce:')
         #print(repr(delivery))
 
@@ -117,7 +121,7 @@ for offers in bs.find_all('li', class_='item'):
         else:
             delivery_cost = 0.0
 
-        print(delivery_cost)
+        #print(delivery_cost)
 
         for product_collateral in auction.find_all('div', class_='product-collateral'):
             #print(product_collateral)
@@ -133,7 +137,7 @@ for offers in bs.find_all('li', class_='item'):
             # print('data:')
 
             date_available = date_available.replace("Termin dostawy: ", "")#.replace(' dni', "").replace(' tygodni', '')
-            print(date_available)
+            #print(date_available)
 
             description_title = None
             description = None
@@ -141,13 +145,13 @@ for offers in bs.find_all('li', class_='item'):
                 #print(toggle_content)
                 try:
                     description_title = toggle_content.find('h2').get_text().strip()        # nagłówek opisu
-                    print(description_title)
+                    #print(description_title)
                 except:
                     description_title = ''
 
                 try:
                     description = toggle_content.find('p').get_text().strip()       # opis
-                    print(description)
+                    #print(description)
                 except:
                     description = ''
 
@@ -187,7 +191,7 @@ for offers in bs.find_all('li', class_='item'):
                     break
 
 
-            print(merged_list_specify)
+            #print(merged_list_specify)
 
             #print('pętla for:')
             #x = 0
@@ -276,8 +280,8 @@ for offers in bs.find_all('li', class_='item'):
     print('\n')
     #break
 
-print('następna strona aukcji:', next_page)    # link do następnej strony aukcji
-print('ilość pobranych produktów:', number_of_products)
+#print('następna strona aukcji:', next_page)    # link do następnej strony aukcji
+#print('ilość pobranych produktów:', number_of_products)
 
     #todo wysypało się, kiedy produktu już nie było, a był jeszcze wyświetlany w liście w kategorii, np B-Leuchten Miami lampa LED oświetlająca sufit - prawdopodobnie rozwiązane
     #todo sprawdzanie wersji danego produktu i informacji o nim
