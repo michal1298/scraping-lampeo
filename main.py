@@ -123,6 +123,40 @@ for offers in bs.find_all('li', class_='item'):
 
         #print(delivery_cost)
 
+
+        photos = [] # tablica na linki do zdjęć
+        for swiper_wrapper in auction.find_all('div', class_='swiper-wrapper'):     # wyszukiwanie linków do zdjęć .jpg
+            #print(swiper_wrapper)
+            for swiper_slide in swiper_wrapper.find_all('div', class_='swiper-slide'):
+                #print(swiper_slide)
+                #image = swiper_slide.find('source', type='image/jpeg')      # rozdzielczość 535x535
+                image = swiper_slide.find('img')                             # rozdzielczość 1600x1600
+                #print(image)
+                #image = image(attrs = {"img":"srcset"})
+                #image = slice(image)
+
+                # rozdzielczość 535x535:
+                #try:
+                #    image = (image['srcset'])
+                #except:
+                #    image = (image['data-srcset'])
+
+                # rozdzielczość 1600x1600:
+                try:
+                    image = (image['data-src'])
+                except:
+                    image = (image['src'])
+
+                #print(image)
+                #image.replace('" type="image/jpeg"/>', '')
+                #image = image["image/jpeg"]
+                #print(image)
+
+                photos.append(image)        # dodanie zdjęć do listy / tablicy ze zdjęciami
+                break       # todo dodać komentarz, by były linki do wszystkich zdjęć
+        print (photos)
+
+
         for product_collateral in auction.find_all('div', class_='product-collateral'):
             #print(product_collateral)
 
@@ -211,6 +245,7 @@ for offers in bs.find_all('li', class_='item'):
             product_table_feature.append('nagłówek opisu')
             product_table_feature.append('opis')
             product_table_feature.append('specyfikacja')
+            product_table_feature.append('URL')
             #print(product_table_feature)
 
 
@@ -224,6 +259,7 @@ for offers in bs.find_all('li', class_='item'):
             product_table.append(description_title)
             product_table.append(description)
             product_table.append(merged_list_specify)
+            product_table.append(photos)
             #print(product_table)
 
 
@@ -241,37 +277,6 @@ for offers in bs.find_all('li', class_='item'):
         #for shipping in auction.find('span', class_='shipping').get_text():
             #print(shipping)
 
-        photos = [] # tablica na linki do zdjęć
-        for swiper_wrapper in auction.find_all('div', class_='swiper-wrapper'):     # wyszukiwanie linków do zdjęć .jpg
-            #print(swiper_wrapper)
-            for swiper_slide in swiper_wrapper.find_all('div', class_='swiper-slide'):
-                #print(swiper_slide)
-                #image = swiper_slide.find('source', type='image/jpeg')      # rozdzielczość 535x535
-                image = swiper_slide.find('img')                             # rozdzielczość 1600x1600
-                #print(image)
-                #image = image(attrs = {"img":"srcset"})
-                #image = slice(image)
-
-                # rozdzielczość 535x535:
-                #try:
-                #    image = (image['srcset'])
-                #except:
-                #    image = (image['data-srcset'])
-
-                # rozdzielczość 1600x1600:
-                try:
-                    image = (image['data-src'])
-                except:
-                    image = (image['src'])
-
-                #print(image)
-                #image.replace('" type="image/jpeg"/>', '')
-                #image = image["image/jpeg"]
-                #print(image)
-
-                photos.append(image)        # dodanie zdjęć do listy / tablicy ze zdjęciami
-                break       # todo usunąć komentarz, by były wszystkie zdjęcia
-        print (photos)
 
     number_of_products = number_of_products + 1  # zliczanie ilości pobranych produktów
     if (number_of_products == products_to_scraping):
