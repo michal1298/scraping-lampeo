@@ -270,6 +270,7 @@ for offers in bs.find_all('li', class_='item'):
                 #print(image)
 
                 photos.append(image)        # dodanie zdjęć do listy / tablicy ze zdjęciami
+                break       # todo usunąć komentarz, by były wszystkie zdjęcia
         print (photos)
 
     number_of_products = number_of_products + 1  # zliczanie ilości pobranych produktów
@@ -277,7 +278,7 @@ for offers in bs.find_all('li', class_='item'):
         break
 
     price_special = None    # kiedy produkt nie posiadał ceny promocyjnej, zapisywana została cena promocyjna z poprzedniego produktu
-    print('\n')
+    #print('\n')
     #break
 
 #print('następna strona aukcji:', next_page)    # link do następnej strony aukcji
