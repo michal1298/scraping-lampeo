@@ -154,7 +154,7 @@ for offers in bs.find_all('li', class_='item'):
 
                 photos.append(image)        # dodanie zdjęć do listy / tablicy ze zdjęciami
                 break       # todo dodać komentarz, by były linki do wszystkich zdjęć
-        print (photos)
+        #print (photos)
 
 
         for product_collateral in auction.find_all('div', class_='product-collateral'):
@@ -259,7 +259,7 @@ for offers in bs.find_all('li', class_='item'):
             product_table.append(description_title)
             product_table.append(description)
             product_table.append(merged_list_specify)
-            product_table.append(photos)
+            product_table.append(image)
             #print(product_table)
 
 
