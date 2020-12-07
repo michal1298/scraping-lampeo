@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from requests import get
 import sys
+import csv
 #import time
 
 if len(sys.argv) < 3:
@@ -244,7 +245,7 @@ for offers in bs.find_all('li', class_='item'):
             product_table_feature.append('termin dostawy')
             product_table_feature.append('nagłówek opisu')
             product_table_feature.append('opis')
-            product_table_feature.append('specyfikacja')
+            #product_table_feature.append('specyfikacja')
             product_table_feature.append('URL')
             #print(product_table_feature)
 
@@ -258,7 +259,7 @@ for offers in bs.find_all('li', class_='item'):
             product_table.append(date_available)
             product_table.append(description_title)
             product_table.append(description)
-            product_table.append(merged_list_specify)
+            #product_table.append(merged_list_specify)
             product_table.append(image)
             #print(product_table)
 
@@ -272,6 +273,14 @@ for offers in bs.find_all('li', class_='item'):
                     break
             print(product_all_info)
 
+            # utworzenie pliku:
+            with open("export.csv", mode='w') as csv_file:
+                fieldnames = ['nazwa produktu', 'producent', 'cena promocyjna', 'cena', 'koszt dostawy', 'termin dostawy',
+                              'nagłówek opisu', 'opis', 'URL']
+                writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+                writer.writeheader()
+                writer.writerow(product_all_info)
         #for cart_benefits in auction.find_all('strong', class_='span'):
             #print(cart_benefits)
         #for shipping in auction.find('span', class_='shipping').get_text():
