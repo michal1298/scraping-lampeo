@@ -66,7 +66,7 @@ for offers in bs.find_all('li', class_='item'):
         #regular_price.replace('zł', '')
         #regular_price.replace(',', '.')
         #print('cena string:', regular_price)
-        #regular_price = float(regular_price)
+        regular_price = float(regular_price)
         #print('cena float:', regular_price)
         #print(regular_price)
         #print(type(regular_price))
@@ -274,13 +274,14 @@ for offers in bs.find_all('li', class_='item'):
             print(product_all_info)
 
             # utworzenie pliku:
-            with open("export.csv", mode='w') as csv_file:
-                fieldnames = ['nazwa produktu', 'producent', 'cena promocyjna', 'cena', 'koszt dostawy', 'termin dostawy',
+            with open("export.csv", mode='a') as csv_file:
+                fieldnames = ['nazwa produktu', 'producent', 'cena promocyjna', 'cena', 'koszt dostawy',
+                              'termin dostawy',
                               'nagłówek opisu', 'opis', 'URL']
                 writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                #writer.writeheader()  # nagłówki
+                writer.writerow(product_all_info)  # dodanie informacji do pliku csv
 
-                writer.writeheader()
-                writer.writerow(product_all_info)
         #for cart_benefits in auction.find_all('strong', class_='span'):
             #print(cart_benefits)
         #for shipping in auction.find('span', class_='shipping').get_text():
