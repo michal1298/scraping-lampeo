@@ -16,4 +16,5 @@ Example:
 ```
 python3 main.py https://www.lampy.pl/oswietlenie-biurowe/ 5
 ```
-It will scrap 5 products from category "oświetlenie biurowe".
+It will scrap 5 products from category "oświetlenie biurowe". Data will be export to `export.csv` file.
+Photos will be saved to `photos/` directory.

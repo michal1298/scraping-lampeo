@@ -152,4 +152,5 @@ fabric.properties
 
 
 # ---
-/export.csv
+export.csv
+photos/
